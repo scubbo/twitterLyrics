@@ -99,7 +99,28 @@ def listLyrics():
 	with file('lyrics', 'r') as f:
 		print pickle.load(f)
 
+def usage():
+	print """OK you doofus, listen up.
+Here are some example usages:
+
+twitterLyrics.py list
+  -> lists the saved lyrics
+
+twitterLyrics.py add "We all live in a yellow submarine"
+  -> Adds the lyrics to the list
+  (bit dodgy, this one. Best use the web interface)
+
+twitterLyrics.py post
+  -> Posts a lyric
+
+twitterLyrics.py listen
+  -> Check if anyone's mentioned me/you/us/whatever, and replies to them
+	"""
+
 def main():
+	if len(sys.argv) == 1:
+		usage()
+		return
 	if sys.argv[1] == 'add':
 		addLyric(sys.argv[2:])
 		return
@@ -108,8 +129,6 @@ def main():
 		return
 	theTB = tb.Twitterbot()
 	theApp = App(theTB)
-	if len(sys.argv) == 1:
-		raise IOError('You need to provide \'post\' or \'listen\' as an argument to this script!')
 	if sys.argv[1] == 'post':
 		theApp.postUpdate()
 	if sys.argv[1] == 'listen':
